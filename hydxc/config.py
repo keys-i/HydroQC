@@ -2,11 +2,13 @@ from dataclasses import dataclass
 from typing import Optional
 import yaml
 
+
 @dataclass
 class RangeConfig:
     enabled: bool
     min: float
     max: float
+
 
 @dataclass
 class StuckConfig:
@@ -14,16 +16,19 @@ class StuckConfig:
     window: int
     tolerance: float
 
+
 @dataclass
 class SpikeMadConfig:
     enabled: bool
     window: int
     threshold: float
 
+
 @dataclass
 class StepConfig:
     enabled: bool
     max_change_per_step: float
+
 
 @dataclass
 class DataConfig:
@@ -34,6 +39,7 @@ class DataConfig:
     datetime_format: Optional[str]
     timezone: Optional[str]
 
+
 @dataclass
 class OutputConfig:
     flags_csv: str
@@ -41,6 +47,7 @@ class OutputConfig:
     charts_dir: str
     report_path: str
     station_name: str
+
 
 @dataclass
 class QCConfig:
@@ -50,6 +57,7 @@ class QCConfig:
     spike_mad: SpikeMadConfig
     step_rate: StepConfig
     output: OutputConfig
+
 
 def load_config(path: str) -> QCConfig:
     with open(path, "r") as f:
@@ -72,7 +80,5 @@ def load_config(path: str) -> QCConfig:
         stuck_sensor=StuckConfig(**qc_section["stuck_sensor"]),
         spike_mad=SpikeMadConfig(**qc_section["spike_mad"]),
         step_rate=StepConfig(**qc_section["step_rate"]),
-        output=OutputConfig(
-            **out_section
-        ),
+        output=OutputConfig(**out_section),
     )

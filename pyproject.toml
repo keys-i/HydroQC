@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hydro-qc-toolkit"
+version = "0.1.0"
+description = "Hydrological QC toolkit for rainfall and level timeseries."
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=2.0",
+    "numpy>=1.26",
+    "PyYAML>=6.0",
+    "matplotlib>=3.8",
+]
+
+[tool.setuptools]
+packages = ["hydxc"]
+
+[project.scripts]
+hydro-qc = "hydxc.cli:main"

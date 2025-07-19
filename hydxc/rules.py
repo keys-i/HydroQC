@@ -8,13 +8,19 @@ FLAG_STUCK = 2
 FLAG_SPIKE = 3
 FLAG_STEP = 4
 
-def apply_range_check(series: pd.Series, min_val: float, max_val: float) -> pd.Series:
+
+def apply_range_check(
+    series: pd.Series, min_val: float, max_val: float
+) -> pd.Series:
     flags = pd.Series(FLAG_OK, index=series.index, dtype="int64")
     mask = (series < min_val) | (series > max_val)
     flags[mask] = FLAG_RANGE
     return flags
 
-def apply_stuck_sensor(series: pd.Series, window: int, tolerance: float) -> pd.Series:
+
+def apply_stuck_sensor(
+    series: pd.Series, window: int, tolerance: float
+) -> pd.Series:
     """
     Flags points where the rolling max-min within window is below tolerance
     (i.e., sensor is basically flat / stuck).
@@ -26,11 +32,15 @@ def apply_stuck_sensor(series: pd.Series, window: int, tolerance: float) -> pd.S
     flags[stuck] = FLAG_STUCK
     return flags
 
+
 def _rolling_mad(x: np.ndarray) -> float:
     median = np.median(x)
     return np.median(np.abs(x - median))
 
-def apply_spike_mad(series: pd.Series, window: int, threshold: float) -> pd.Series:
+
+def apply_spike_mad(
+    series: pd.Series, window: int, threshold: float
+) -> pd.Series:
     """
     Flags spikes based on Median Absolute Deviation (MAD).
     A point is flagged if |x - median(window)| / MAD(window) > threshold.
@@ -55,7 +65,10 @@ def apply_spike_mad(series: pd.Series, window: int, threshold: float) -> pd.Seri
 
     return flags
 
-def apply_step_rate(series: pd.Series, max_change_per_step: float) -> pd.Series:
+
+def apply_step_rate(
+    series: pd.Series, max_change_per_step: float
+) -> pd.Series:
     """
     Flags points where absolute difference to previous sample exceeds max_change_per_step.
     """
@@ -64,6 +77,7 @@ def apply_step_rate(series: pd.Series, max_change_per_step: float) -> pd.Series:
     mask = diff > max_change_per_step
     flags[mask] = FLAG_STEP
     return flags
+
 
 def combine_flags(*flag_series: pd.Series) -> pd.Series:
     """
