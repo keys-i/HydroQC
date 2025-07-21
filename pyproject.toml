@@ -5,17 +5,21 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "hydro-qc-toolkit"
 version = "0.1.0"
-description = "Hydrological QC toolkit for rainfall and level timeseries."
+description = "Hydrological QC toolkit for rainfall and water level time series."
+readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "pandas>=2.0",
     "numpy>=1.26",
     "PyYAML>=6.0",
     "matplotlib>=3.8",
+    "rich>=13.0",
 ]
 
 [tool.setuptools]
-packages = ["hydxc"]
+packages = ["hydxc", "scripts"]
 
 [project.scripts]
-hydro-qc = "hydxc.cli:main"
+# Main QC CLI
+hydxc = "hydxc.cli:main"
+hydxc-sampler = "scripts.sampler:main"
